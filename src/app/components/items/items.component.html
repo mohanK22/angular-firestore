@@ -1,0 +1,46 @@
+<div *ngIf="items?.length > 0; else noItems">
+  <ul class="collection" *ngFor="let item of items">
+    <li class="collection-item">
+      <!-- (dblclick)="deleteItem($event, item)" -->
+
+      <!-- <i>{{ item.id }} => </i> -->
+      <strong>{{ item.title }}: </strong>
+      {{ item.description }}
+      <a class="secondary-content">
+        <i *ngIf="!editState" (click)="editItem($event, item)" class="fa fa-pencil"></i>
+        <i *ngIf="editState && itemToEdit.id === item.id" (click)="clearState()" class="fa fa-compress"></i>
+      </a>
+
+      <div *ngIf="editState && itemToEdit.id === item.id">
+        <form (ngSubmit)="updateItem(item)">
+
+          <div class="row">
+            <div class="input-field col s6">
+              <input id="item_edt_title" type="text" class="validate" [(ngModel)]="item.title"
+                name="item_edt_title" value="{{ item.title }}">
+              <!-- <label for="item_edt_title">Title</label> -->
+            </div>
+
+            <div class="input-field col s6">
+              <input id="item_edt_desc" type="text" class="validate" [(ngModel)]="item.description"
+                name="item_edt_desc" value="{{ item.description }}">
+              <!-- <label for="item_edt_desc">Description</label> -->
+            </div>
+
+            <button class="btn waves-effect waves-light orange" type="submit" name="action">Update Item</button>
+            &nbsp;
+            <button class="btn waves-effect waves-light red" type="button" name="action" (click)="deleteItem($event, item)">Delete Item</button>
+
+          </div>
+
+        </form>
+      </div>
+
+    </li>
+  </ul>
+</div>
+
+<ng-template #noItems>
+  <hr>
+  <blockquote>There are no items in the list</blockquote>
+</ng-template>
